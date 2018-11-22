@@ -15,8 +15,8 @@ var ChatRoomClient = function() {
   this.users = [];
   this.nameChanged = false;
   this.totalCount = 0;
-  // this.socket = io.connect('http://123.56.230.53:29231/');
-  this.socket = io.connect();
+  this.socket = io.connect('http://47.97.6.72:9090/');
+  // this.socket = io.connect();
   this.startup();
   this.init();
 };
