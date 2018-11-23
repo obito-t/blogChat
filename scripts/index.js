@@ -217,8 +217,6 @@ ChatRoomClient.prototype.socketEvent = function () {
         tempList.push(data.users[i].userId);
       }
       for (var j = 0; j < currentContactListLength; j++) {
-        console.log(tempList, currentContactList[j], tempList.indexOf((currentContactList[j])));
-        
         if (tempList.indexOf((currentContactList[j])) == -1) {
           $('#' + currentContactList[j]).remove();
           indexArray.push(j);
