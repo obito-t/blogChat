@@ -1,3 +1,5 @@
+var currentContactList = []; //当前联系人列表 
+
 function htmlspecialchars(str) {
   str = str || '';
   str = str.replace(/&/g, '&amp;');
@@ -197,19 +199,39 @@ ChatRoomClient.prototype.socketEvent = function () {
   self.socket.on('pong', function (data) {
     var type = data.type;
     if (type === 'PONG') {
-      $('.chatroom-tribe .name strong').text(data.count);
       // 更新联系人列表
       var html = '';
+      var addList = [];
+      var tempList = [];
+      var indexArray = [];
+      var currentContactListLength = currentContactList.length;
       var length = data.users.length;
       for (var i = 0; i < length; i++) {
-        if ($('#' + data.users[i].userId).length == 0) {
+        if ($('#' + data.users[i].userId).length == 0) { //新加入的群成员
+          addList.push(data.users[i].userId);
           html += '<div class="chatroom-contactlist-item" id="' + data.users[i].userId + '">\
                   <div><img src="' + data.users[i].userAvatar + '"/></div>\
                   <p>' + data.users[i].userName + '</p>\
                 </div>';
         }
+        tempList.push(data.users[i].userId);
       }
+      for (var j = 0; j < currentContactListLength; j++) {
+        console.log(tempList, currentContactList[j], tempList.indexOf((currentContactList[j])));
+        
+        if (tempList.indexOf((currentContactList[j])) == -1) {
+          $('#' + currentContactList[j]).remove();
+          indexArray.push(j);
+        }
+      }
+      length = indexArray.length;
+      for (var i = 0; i < length; i++) {
+        currentContactList.splice(i, 1); //删除下线成员
+      }
+      currentContactList = currentContactList.concat(addList);
       $('.chatroom-contactlist').append(html);
+      //更新当前在线人数
+      $('.chatroom-tribe .name strong').text(data.count);
 
       if ($('.chatroom').hasClass('chatroom-fold') && this.totalCount) {
         $('.chatroom .count').eq(0).text(this.totalCount).css('visibility', 'visible');

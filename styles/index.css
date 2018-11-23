@@ -21,9 +21,8 @@ body {
 .chatroom {
     font-size: 12px;
     position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    right: -3px;
+    bottom: -3px;
     width: 563px;
     height: 405px;
     z-index: 998;
