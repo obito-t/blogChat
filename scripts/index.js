@@ -80,7 +80,7 @@ ChatRoomClient.prototype.connection = function (cb) {
           self.userName = info.name;
           self.userAvatar = info.avatar;
         }
-      } catch (e) {}
+      } catch (e) { }
     } else {
       if (window.localStorage) {
         var userId = window.localStorage.getItem('userId');
@@ -217,9 +217,9 @@ ChatRoomClient.prototype.socketEvent = function () {
         tempList.push(data.users[i].userId);
       }
       for (var j = 0; j < currentContactListLength; j++) {
-        if (tempList.indexOf((currentContactList[j])) == -1) {
-          $('#' + currentContactList[j]).remove();
-          indexArray.push(j);
+        if ($.inArray(currentContactList[j], tempList) == -1) {
+            $('#' + currentContactList[j]).remove();
+            indexArray.push(j);
         }
       }
       length = indexArray.length;
